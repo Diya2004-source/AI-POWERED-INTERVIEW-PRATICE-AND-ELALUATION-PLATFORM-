@@ -1,15 +1,19 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Question, Category
+from .models import Quiz, QuizQuestion, UserAnswer
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+@admin.register(Quiz)
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'created_at')
 
 
-@admin.register(Question)
-class QuestionAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'text', 'category', 'difficulty')
-    search_fields = ('text',)
-    list_filter = ('difficulty', 'category')
+@admin.register(QuizQuestion)
+class QuizQuestionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'quiz', 'question')
+
+
+@admin.register(UserAnswer)
+class UserAnswerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'quiz', 'question', 'selected_answer', 'is_correct')
+    list_filter = ('is_correct',)

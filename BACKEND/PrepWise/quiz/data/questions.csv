@@ -1,0 +1,172 @@
+text,category,difficulty,option1,option2,option3,option4,correct_answer
+What is Python?,1,easy,A programming language,A snake,A database,OS,A programming language
+Who developed Python?,1,easy,Guido van Rossum,Bill Gates,Elon Musk,Dennis Ritchie,Guido van Rossum
+What type of language is Python?,1,easy,Interpreted,Compiled,Machine,Assembly,Interpreted
+What is indentation in Python?,1,medium,Code structure,Variable,Loop,Function,Code structure
+What is a list in Python?,1,easy,Collection of items,Single value,Function,Loop,Collection of items
+What is tuple?,1,medium,Immutable list,Mutable list,Loop,Function,Immutable list
+What is dictionary?,1,medium,Key-value pair,Array,Loop,Class,Key-value pair
+What is PIP?,1,easy,Package manager,Compiler,Debugger,OS,Package manager
+What is lambda?,1,medium,Anonymous function,Loop,Class,File,Anonymous function
+What is OOP in Python?,1,medium,Object oriented programming,Only procedures,Only functions,Database,Object oriented programming
+
+What is Java?,2,easy,Programming language,OS,Database,Compiler,Programming language
+Who developed Java?,2,easy,James Gosling,Bill Gates,Elon Musk,Dennis Ritchie,James Gosling
+Java is?,2,easy,Platform independent,Platform dependent,Hardware,Network,Platform independent
+What is JVM?,2,medium,Java Virtual Machine,Java Variable Method,Loop,Compiler,Java Virtual Machine
+What is JDK?,2,medium,Java Development Kit,Java Data Kit,Java Debug Kit,OS,Java Development Kit
+What is inheritance?,2,medium,Reuse of code,Delete code,Loop,File,Reuse of code
+What is polymorphism?,2,medium,Many forms,One form,No form,Loop,Many forms
+What is constructor?,2,medium,Initialize object,Destroy object,Loop,File,Initialize object
+What is interface?,2,medium,Blueprint of class,Variable,Loop,File,Blueprint of class
+Java supports OOP?,2,easy,Yes,No,Maybe,Unknown,Yes
+
+What is React?,3,easy,Frontend library,Backend language,Database,OS,Frontend library
+Who created React?,3,easy,Facebook,Google,Microsoft,Apple,Facebook
+React is based on?,3,medium,Components,Functions only,Database,OS,Components
+What is JSX?,3,medium,HTML in JS,SQL language,OS,File,HTML in JS
+What is state?,3,medium,Data storage,Function,Loop,DB,Data storage
+What is props?,3,medium,Passing data,Receiving DB,OS,Loop,Passing data
+What is virtual DOM?,3,medium,Light copy of DOM,Database,Server,OS,Light copy of DOM
+React uses?,3,easy,JavaScript,Python,Java,C++,JavaScript
+What is hook?,3,medium,Feature function,Database,Loop,OS,Feature function
+React is?,3,easy,UI library,Backend tool,DB,OS,UI library
+
+What is HTML?,4,easy,Markup language,Programming language,OS,DB,Markup language
+HTML stands for?,4,easy,Hyper Text Markup Language,High Tech Machine Language,OS,DB,Hyper Text Markup Language
+HTML is used for?,4,easy,Web pages,AI,OS,DB,Web pages
+Tag for link?,4,easy,a href,link,src,div,a href
+Image tag?,4,easy,img,src,div,link,img
+HTML file extension?,4,easy,.html,.java,.py,.cpp,.html
+Heading tag?,4,easy,h1 to h6,p,div,span,h1 to h6
+HTML is?,4,easy,Frontend,Backend,DB,OS,Frontend
+Form tag?,4,medium,form,input,button,div,form
+HTML is interpreted by?,4,easy,Browser,Compiler,OS,DB,Browser
+
+What is CSS?,5,easy,Styling language,Programming language,OS,DB,Styling language
+CSS stands for?,5,easy,Cascading Style Sheets,Computer Style System,OS,DB,Cascading Style Sheets
+CSS used for?,5,easy,Designing web pages,Database,OS,Backend,Designing web pages
+Inline CSS?,5,medium,Inside tag,External file,DB,OS,Inside tag
+External CSS?,5,medium,Separate file,Inside tag,DB,OS,Separate file
+Selector in CSS?,5,medium,Select elements,Delete elements,DB,OS,Select elements
+Property in CSS?,5,medium,Style attribute,Function,DB,OS,Style attribute
+Flexbox?,5,medium,Layout system,DB system,OS,Loop,Layout system
+CSS file extension?,5,easy,.css,.html,.js,.py,.css
+CSS is?,5,easy,Frontend style,Backend,DB,OS,Frontend style
+
+What is JavaScript?,6,easy,Programming language,Database,OS,Compiler,Programming language
+JavaScript is used for?,6,easy,Frontend behavior,Backend only,OS,DB,Frontend behavior
+Who created JavaScript?,6,easy,Brendan Eich,Bill Gates,Elon Musk,James Gosling,Brendan Eich
+JS is?,6,easy,Interpreted language,Compiled only,OS,DB,Interpreted language
+What is variable in JS?,6,easy,Storage container,Function,Loop,Class,Storage container
+let keyword is?,6,medium,Block scoped variable,Constant,Function,Loop,Block scoped variable
+const means?,6,medium,Constant value,Variable value,Loop,Class,Constant value
+What is DOM?,6,medium,Document object model,Database,OS,Compiler,Document object model
+Event in JS?,6,medium,User action,Database,Loop,File,User action
+JS runs in?,6,easy,Browser,Compiler,OS,DB,Browser
+
+What is SQL?,7,easy,Database language,OS,Compiler,Frontend,Database language
+SQL stands for?,7,easy,Structured Query Language,Simple Query Language,OS,DB,Structured Query Language
+Which command retrieves data?,7,easy,SELECT,DELETE,UPDATE,INSERT,SELECT
+Which command deletes data?,7,medium,DELETE,SELECT,CREATE,ALTER,DELETE
+Primary key?,7,medium,Unique identifier,Duplicate value,OS,Loop,Unique identifier
+Foreign key?,7,medium,Link between tables,Delete data,OS,Loop,Link between tables
+SQL used for?,7,easy,Database management,Frontend,OS,AI,Database management
+Which joins tables?,7,medium,JOIN,SELECT,INSERT,DELETE,JOIN
+DBMS example?,7,easy,MySQL,React,HTML,OS,MySQL
+What is table?,7,easy,Collection of data,Function,Loop,OS,Collection of data
+
+What is OOP?,8,easy,Object oriented programming,OS,DB,Compiler,Object oriented programming
+Main concept of OOP?,8,easy,Objects and classes,Only functions,Only loops,OS,Objects and classes
+What is class?,8,medium,Blueprint of object,Variable,Loop,DB,Blueprint of object
+What is object?,8,medium,Instance of class,Function,Loop,DB,Instance of class
+Encapsulation means?,8,medium,Data hiding,Data delete,OS,Loop,Data hiding
+Inheritance means?,8,medium,Reusing code,Deleting code,OS,Loop,Reusing code
+Polymorphism?,8,medium,Many forms,One form,OS,Loop,Many forms
+Abstraction?,8,medium,Hiding complexity,Showing everything,OS,Loop,Hiding complexity
+Constructor?,8,medium,Initialize object,Delete object,OS,Loop,Initialize object
+Destructor?,8,medium,Destroy object,Create object,OS,Loop,Destroy object
+
+What is a data structure?,11,easy,Way to store data,Programming language,OS,DB,Way to store data
+Which is linear data structure?,11,easy,Array,Tree,Graph,Network,Array
+Stack follows?,11,medium,LIFO,FIFO,Random,Parallel,LIFO
+Queue follows?,11,medium,FIFO,LIFO,Tree,Graph,FIFO
+What is time complexity?,11,medium,Time taken by algorithm,Memory usage,OS speed,DB size,Time taken by algorithm
+Binary search complexity?,11,medium,O(log n),O(n),O(n2),O(1),O(log n)
+Linked list uses?,11,easy,Nodes,Tables,Arrays,Files,Nodes
+Tree is?,11,medium,Hierarchical structure,Linear structure,DB,OS,Hierarchical structure
+Graph consists of?,11,medium,Nodes and edges,Only nodes,Only edges,Tables,Nodes and edges
+DFS stands for?,11,medium,Depth First Search,Data File System,Dynamic File System,OS,Depth First Search
+
+What is ML?,12,easy,Machine learns from data,OS,DB,Compiler,Machine learns from data
+ML is part of?,12,easy,AI,OS,DB,Network,AI
+Supervised learning?,12,medium,Labeled data,Unlabeled data,OS,DB,Labeled data
+Unsupervised learning?,12,medium,Unlabeled data,Labeled data,OS,DB,Unlabeled data
+What is training data?,12,medium,Data to train model,Test data,OS,DB,Data to train model
+What is overfitting?,12,hard,Model memorizes data,Model underperforms,OS,DB,Model memorizes data
+What is regression?,12,medium,Prediction of values,Classification,OS,DB,Prediction of values
+Classification means?,12,medium,Grouping data,Deleting data,OS,DB,Grouping data
+What is algorithm in ML?,12,medium,Step-by-step process,Database,OS,File,Step-by-step process
+What is model?,12,medium,Trained system,OS,DB,Compiler,Trained system
+
+What is ML?,12,easy,Machine learns from data,OS,DB,Compiler,Machine learns from data
+ML is part of?,12,easy,AI,OS,DB,Network,AI
+Supervised learning?,12,medium,Labeled data,Unlabeled data,OS,DB,Labeled data
+Unsupervised learning?,12,medium,Unlabeled data,Labeled data,OS,DB,Unlabeled data
+What is training data?,12,medium,Data to train model,Test data,OS,DB,Data to train model
+What is overfitting?,12,hard,Model memorizes data,Model underperforms,OS,DB,Model memorizes data
+What is regression?,12,medium,Prediction of values,Classification,OS,DB,Prediction of values
+Classification means?,12,medium,Grouping data,Deleting data,OS,DB,Grouping data
+What is algorithm in ML?,12,medium,Step-by-step process,Database,OS,File,Step-by-step process
+What is model?,12,medium,Trained system,OS,DB,Compiler,Trained system
+
+What is HR?,10,easy,Human resource management,OS,DB,AI,Human resource management
+Role of HR?,10,easy,Recruit employees,Develop software,OS,DB,Recruit employees
+What is interview?,10,easy,Selection process,Training,OS,DB,Selection process
+What is resume?,10,easy,Candidate profile,Company report,OS,DB,Candidate profile
+What is teamwork?,10,easy,Working together,Working alone,OS,DB,Working together
+What is leadership?,10,medium,Guiding team,Following orders,OS,DB,Guiding team
+What is appraisal?,10,medium,Performance review,Joining letter,OS,DB,Performance review
+What is salary?,10,easy,Payment for work,Bonus,OS,DB,Payment for work
+What is job role?,10,easy,Work responsibility,Holiday,OS,DB,Work responsibility
+What is onboarding?,10,medium,Joining process,Leaving process,OS,DB,Joining process
+
+2 + 2 = ?,13,easy,4,3,5,6,4
+10% of 200?,13,easy,20,10,30,40,20
+Speed formula?,13,medium,Distance/time,Time/distance,Mass/volume,Force/time,Distance/time
+Average of numbers?,13,medium,Sum/count,Count/sum,Product,Division,Sum/count
+LCM means?,13,medium,Least common multiple,Largest common number,OS,DB,Least common multiple
+Ratio means?,13,medium,Comparison of values,Addition,Subtraction,OS,Comparison of values
+Profit formula?,13,medium,Selling - Cost,Cost - Selling,OS,DB,Selling - Cost
+Simple interest?,13,medium,P*R*T/100,P+R+T,OS,DB,P*R*T/100
+Percentage means?,13,easy,Out of 100,Out of 10,OS,DB,Out of 100
+Square of 5?,13,easy,25,10,20,30,25
+
+Who is Prime Minister of India?,14,easy,Narendra Modi,Rahul Gandhi,Amit Shah,President,Narendra Modi
+Capital of India?,14,easy,New Delhi,Mumbai,Kolkata,Chennai,New Delhi
+ISRO stands for?,14,medium,Indian Space Research Org,OS,DB,AI,Indian Space Research Org
+First PM of India?,14,easy,Jawaharlal Nehru,Gandhi,Patel,Azad,Jawaharlal Nehru
+Currency of India?,14,easy,Rupee,Dollar,Yen,Euro,Rupee
+UNO stands for?,14,medium,United Nations Org,OS,DB,AI,United Nations Org
+President of India?,14,medium,Droupadi Murmu,Modi,Rahul,Amit Shah,Droupadi Murmu
+Olympics held every?,14,easy,4 years,2 years,1 year,5 years,4 years
+National animal of India?,14,easy,Tiger,Lion,Elephant,Peacock,Tiger
+National flag colors?,14,easy,Orange white green,Red blue yellow,Black white green,Orange white green
+
+What is machine design?,15,easy,Design of machines,OS,DB,AI,Design of machines
+Stress means?,15,medium,Force per area,Speed,Mass,Time,Force per area
+Strain means?,15,medium,Deformation,Force,Speed,Mass,Deformation
+Material strength?,15,medium,Ability to resist load,Speed,OS,DB,Ability to resist load
+Bolt is used for?,15,easy,Joining parts,Heating,OS,DB,Joining parts
+
+Fluid mechanics studies?,16,easy,Fluid behavior,OS,DB,AI,Fluid behavior
+What is pressure?,16,medium,Force per area,Speed,Mass,Time,Force per area
+Bernoulli principle?,16,medium,Energy conservation in fluid,OS,DB,AI,Energy conservation in fluid
+Viscosity means?,16,medium,Resistance to flow,Speed,Mass,Force,Resistance to flow
+Density formula?,16,easy,Mass/volume,Volume/mass,Force/time,Speed/time,Mass/volume
+
+What is structure?,17,easy,Load bearing system,OS,DB,AI,Load bearing system
+Beam is?,17,medium,Horizontal member,Vertical member,OS,DB,Horizontal member
+Column is?,17,medium,Vertical member,Horizontal member,OS,DB,Vertical member
+Load means?,17,easy,Force applied,Speed,Mass,Time,Force applied
+Concrete is?,17,easy,Construction material,OS,DB,AI,Construction material
