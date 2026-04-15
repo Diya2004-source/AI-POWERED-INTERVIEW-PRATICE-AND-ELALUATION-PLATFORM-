@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6fb;
+}
+
+.header{
+    background:#4a3aff;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-size:22px;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:130px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:15px;
+    text-align:center;
+}
+
+.card h3{
+    margin:10px 0;
+    font-size:18px;
+}
+
+.card p{
+    font-size:13px;
+    color:#666;
+    height:40px;
+    overflow:hidden;
+}
+
+button{
+    margin-top:10px;
+    background:#4a3aff;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+    width:100%;
+}
+
+button:hover{
+    background:#3728d6;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+📚 Learning Dashboard
+</div>
+
+<div class="container" id="modules"></div>
+
+<script src="../js/dashboard.js"></script>
+
+</body>
+</html>

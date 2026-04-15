@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepWise | AI-Powered Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root { 
+            --purple: #6a5acd; 
+            --purple-grad: linear-gradient(135deg, #6a5acd 0%, #8a2be2 100%); 
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .text-purple { color: var(--purple); }
+        .bg-purple { background-color: var(--purple); }
+        .btn-purple-gradient { background: var(--purple-grad); color: white; border: none; transition: 0.3s; }
+        .btn-purple-gradient:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(106, 90, 205, 0.4); color: white; }
+        
+        /* Quiz Styling */
+        .option-btn { 
+            border-radius: 12px; 
+            transition: 0.2s; 
+            border: 1.5px solid #eee; 
+            text-align: left; 
+            padding: 18px 25px; 
+            background: white; 
+            font-weight: 500; 
+            width: 100%; 
+            margin-bottom: 12px; 
+        }
+        .option-btn:hover { border-color: var(--purple); background: #f8f7ff; }
+        
+        /* Result Styling */
+        .score-circle { 
+            width: 150px; 
+            height: 150px; 
+            border: 8px solid #f3f0ff; 
+            border-top-color: var(--purple); 
+            border-radius: 50%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2.2rem; 
+            font-weight: bold; 
+            margin: 20px auto; 
+        }
+        .ai-feedback-box {
+            background: #fdfcff;
+            border-left: 4px solid var(--purple);
+            border-radius: 12px;
+        }
+        .study-tips-card {
+            background: #fff9f0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3 mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-purple" href="dashboard.html">
+                <i class="bi bi-cpu-fill"></i> PrepWise
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="difficulty-section" class="text-center py-5 animate__animated animate__fadeIn">
+            <h2 class="fw-bold mb-2">Choose Your Challenge</h2>
+            <p class="text-muted mb-5">Select a level to begin your AI-guided practice session.</p>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-3"><button onclick="beginQuiz('easy')" class="btn btn-outline-success w-100 py-4 fw-bold shadow-sm rounded-4">EASY</button></div>
+                <div class="col-md-3"><button onclick="beginQuiz('medium')" class="btn btn-outline-warning w-100 py-4 fw-bold shadow-sm rounded-4">MEDIUM</button></div>
+                <div class="col-md-3"><button onclick="beginQuiz('hard')" class="btn btn-outline-danger w-100 py-4 fw-bold shadow-sm rounded-4">HARD</button></div>
+            </div>
+        </div>
+
+        <div id="quiz-active-section" class="d-none mx-auto" style="max-width: 800px;">
+            <div class="progress mb-4" style="height: 10px;">
+                <div id="timer-bar" class="progress-bar bg-purple" style="width: 100%"></div>
+            </div>
+            
+            <div class="card p-5 shadow-lg border-0" style="border-radius: 24px;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span id="question-meta" class="badge bg-light text-purple px-3 py-2 rounded-pill fw-bold"></span>
+                    <span id="timer-text" class="text-purple fw-bold fs-5"><i class="bi bi-clock"></i> 15s</span>
+                </div>
+                
+                <h3 id="question-text" class="fw-bold mb-5 lh-base"></h3>
+                
+                <div id="options-grid" class="animate__animated animate__fadeInUp">
+                    </div>
+            </div>
+        </div>
+
+        <div id="result-section" class="d-none py-4 animate__animated animate__zoomIn">
+            <div class="card p-5 border-0 shadow-lg mx-auto" style="max-width: 650px; border-radius: 28px;">
+                <div class="text-center">
+                    <h2 class="fw-bold mb-1">Performance Report</h2>
+                    <div class="score-circle">
+                        <span id="ai-rating">0/10</span>
+                        <small class="fs-6 text-muted fw-normal" style="margin-top: -5px;">Rating</small>
+                    </div>
+                </div>
+
+                <div class="ai-feedback-box p-4 mb-4 text-start mt-3">
+                    <h6 class="fw-bold text-purple mb-2">
+                        <i class="bi bi-robot"></i> AI Analysis:
+                    </h6>
+                    <p id="ai-feedback" class="text-muted small mb-0 lh-lg"></p>
+                </div>
+
+                <div class="study-tips-card text-start mb-5">
+                    <h6 class="fw-bold text-dark mb-3">
+                        <i class="bi bi-lightbulb-fill text-warning"></i> Study Tips & Tricks:
+                    </h6>
+                    <ul id="ai-tips" class="small text-muted ps-3 mb-0 lh-lg">
+                        </ul>
+                </div>
+
+                <div id="result-actions" class="d-grid gap-2">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/quiz.js"></script>
+</body>
+</html>
