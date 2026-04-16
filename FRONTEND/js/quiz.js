@@ -1,218 +1,232 @@
-/* js/quiz.js */
 let allQuestions = [];
 let filteredQuestions = [];
-let currentIdx = 0;
-let score = 0;
-let timer;
-const TIME_LIMIT = 15;
+let currentIndex = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const catId = localStorage.getItem('selectedCategory');
-    if (!catId) {
-        window.location.href = 'dashboard.html';
-        return;
-    }
-    fetchQuestions(catId);
+let answers = [];
+let score = 0;
+
+let currentLevel = "easy";
+let timer;
+let timeLeft = 15;
+
+const categoryId = parseInt(localStorage.getItem("selectedCategory"));
+const token = localStorage.getItem("token");
+
+// ---------------- INIT ----------------
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!token || !categoryId) {
+    window.location.href = "dashboard.html";
+    return;
+  }
+
+  await loadQuestions();
+  showDifficultyUI();
 });
 
-async function fetchQuestions(catId) {
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch(`http://127.0.0.1:8000/api/questions/`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await response.json();
-        
-        // Ensure data is an array before filtering
-        if (Array.isArray(data)) {
-            allQuestions = data.filter(q => q.category == catId);
-            console.log(`Loaded ${allQuestions.length} questions for category ${catId}`);
-        } else {
-            console.error("Unexpected API response format:", data);
-        }
-    } catch (err) {
-        console.error("API Connection Error:", err);
-    }
-}
+// ---------------- FETCH QUESTIONS ----------------
+async function loadQuestions() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/questions/", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-function beginQuiz(difficulty) {
-    // If questions haven't loaded from the API yet, wait a moment
-    if (allQuestions.length === 0) {
-        alert("Questions are still loading or none were found. Please try again in a second.");
-        return;
-    }
+    const data = await res.json();
 
-    // Improved filter to handle case-sensitivity and whitespace from Django
-    filteredQuestions = allQuestions.filter(q => 
-        q.difficulty.toLowerCase().trim() === difficulty.toLowerCase().trim()
+    allQuestions = data.filter(q =>
+      Number(q.category) === categoryId
     );
-    
-    if (filteredQuestions.length === 0) {
-        alert(`No questions found for "${difficulty}". Please check your Django Admin entries.`);
-        return;
-    }
 
-    // Reset game state
-    currentIdx = 0;
-    score = 0;
+    console.log("FILTERED CATEGORY QUESTIONS:", allQuestions);
 
-    // UI Transitions
-    document.getElementById('difficulty-section').classList.add('d-none');
-    document.getElementById('result-section').classList.add('d-none');
-    document.getElementById('quiz-active-section').classList.remove('d-none');
-    
-    loadQuestion();
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
 }
 
+// ---------------- DIFFICULTY UI ----------------
+function showDifficultyUI() {
+  document.getElementById("difficulty-section").style.display = "block";
+  document.getElementById("quiz-section").style.display = "none";
+  document.getElementById("result-section").style.display = "none";
+}
+
+// ---------------- START LEVEL ----------------
+function startQuiz(level) {
+  currentLevel = level;
+  currentIndex = 0;
+  score = 0;
+  answers = [];
+
+  filteredQuestions = allQuestions.filter(q =>
+    q.difficulty.toLowerCase() === level
+  );
+
+  if (filteredQuestions.length === 0) {
+    alert("No questions for " + level);
+    return;
+  }
+
+  document.getElementById("difficulty-section").style.display = "none";
+  document.getElementById("quiz-section").style.display = "block";
+
+  loadQuestion();
+}
+
+// ---------------- LOAD QUESTION ----------------
 function loadQuestion() {
-    clearInterval(timer);
-    
-    if (currentIdx >= filteredQuestions.length) {
-        showResults();
-        return;
-    }
+  clearInterval(timer);
 
-    const q = filteredQuestions[currentIdx];
-    
-    // Update Meta Information
-    const meta = document.getElementById('question-meta');
-    if (meta) meta.innerText = `QUESTION ${currentIdx + 1} OF ${filteredQuestions.length}`;
-    
-    document.getElementById('question-text').innerText = q.text;
+  if (currentIndex >= filteredQuestions.length) {
+    return showResult();
+  }
 
-    const grid = document.getElementById('options-grid');
-    grid.innerHTML = '';
+  const q = filteredQuestions[currentIndex];
 
-    // Create buttons for each option
-    [q.option1, q.option2, q.option3, q.option4].forEach(opt => {
-        if (opt) { // Only create button if option text exists
-            const btn = document.createElement('button');
-            btn.className = 'option-btn animate__animated animate__fadeInUp';
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(opt, q.correct_answer);
-            grid.appendChild(btn);
-        }
-    });
+  document.getElementById("question-count").innerText =
+    `Question ${currentIndex + 1} / ${filteredQuestions.length}`;
 
-    startTimer();
+  document.getElementById("question").innerText = q.text;
+
+  const optionsBox = document.getElementById("options");
+  optionsBox.innerHTML = "";
+
+  [q.option1, q.option2, q.option3, q.option4].forEach(opt => {
+    if (!opt) return;
+
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.innerText = opt;
+
+    btn.onclick = () => selectAnswer(opt, q);
+
+    optionsBox.appendChild(btn);
+  });
+
+  startTimer();
 }
 
+// ---------------- TIMER ----------------
 function startTimer() {
-    let timeLeft = TIME_LIMIT;
-    const bar = document.getElementById('timer-bar');
-    const text = document.getElementById('timer-text');
+  timeLeft = 15;
+  document.getElementById("timer").innerText = timeLeft;
 
-    timer = setInterval(() => {
-        timeLeft--;
-        if (text) text.innerText = timeLeft + "s";
-        if (bar) bar.style.width = (timeLeft / TIME_LIMIT) * 100 + "%";
-        
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            currentIdx++;
-            loadQuestion();
-        }
-    }, 1000);
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      skipQuestion();
+    }
+  }, 1000);
 }
 
-function checkAnswer(selected, correct) {
-    clearInterval(timer);
-    
-    // Strict string normalization for accurate scoring
-    if (selected.trim().toLowerCase() === correct.trim().toLowerCase()) {
-        score++;
-    }
-    
-    currentIdx++;
-    loadQuestion();
+// ---------------- ANSWER ----------------
+function selectAnswer(selected, q) {
+  clearInterval(timer);
+
+  answers.push({
+    question_id: q.id,
+    selected_answer: selected
+  });
+
+  if (selected === q.correct_answer) {
+    score++;
+  }
+
+  currentIndex++;
+  loadQuestion();
 }
 
-function showResults() {
-    document.getElementById('quiz-active-section').classList.add('d-none');
-    const resultSection = document.getElementById('result-section');
-    resultSection.classList.remove('d-none');
+// ---------------- SKIP ----------------
+function skipQuestion() {
+  answers.push({
+    question_id: filteredQuestions[currentIndex].id,
+    selected_answer: null
+  });
 
-    const total = filteredQuestions.length;
-    const percentage = (score / total) * 100;
-    const rating = (score / total) * 10;
-    
-    document.getElementById('ai-rating').innerText = rating.toFixed(1) + "/10";
+  currentIndex++;
+  loadQuestion();
+}
 
-    const feedbackText = document.getElementById('ai-feedback');
-    const tipsList = document.getElementById('ai-tips');
-    const actionContainer = document.getElementById('result-actions');
-    
-    tipsList.innerHTML = ''; 
-    actionContainer.innerHTML = '';
+// ---------------- RESULT ----------------
+async function showResult() {
 
-    let feedback = "";
-    let tips = [];
-    let showNextLevel = false;
+  document.getElementById("quiz-section").style.display = "none";
+  document.getElementById("result-section").style.display = "block";
 
-    // AI Performance Logic
-    if (percentage >= 90) {
-        feedback = "Mastery Level! Your logic is sharp and you've demonstrated a deep understanding of these concepts.";
-        tips = [
-            "Challenge: Try to explain these concepts to a peer to solidify your knowledge.",
-            "Optimization: Can you solve similar logic problems with better time complexity?",
-            "Next Step: You're ready for industry-level projects in this module."
-        ];
-        showNextLevel = true;
-    } else if (percentage >= 70) {
-        feedback = "Great job! You have a solid foundation. Just a few technical nuances left to polish.";
-        tips = [
-            "Pro-Tip: Re-read the documentation on the specific methods you missed.",
-            "Strategy: Use the process of elimination for difficult multiple-choice questions.",
-            "Goal: Try to get a 10/10 on this level before moving up."
-        ];
-        showNextLevel = true;
-    } else if (percentage >= 40) {
-        feedback = "Good effort! Some core concepts are still a bit shaky. Consistency is key here.";
-        tips = [
-            "Technique: Try writing out the code execution flow on paper.",
-            "Pacing: You have 15s per question; don't be afraid to take an extra 2 seconds to think.",
-            "Review: Revisit your basic notes for this module before retrying."
-        ];
-        showNextLevel = false; 
-    } else {
-        feedback = "Knowledge Gap Detected. This topic seems challenging right now, but that's where the growth happens!";
-        tips = [
-            "Action: Spend 20 minutes watching a fundamental tutorial on this specific topic.",
-            "Logic: Focus on 'Why' a certain method is used, not just 'How'.",
-            "Support: Don't hesitate to go back to the 'Easy' level to build confidence."
-        ];
-        showNextLevel = false;
-    }
+  const total = filteredQuestions.length;
+  const percentage = (score / total) * 100;
 
-    feedbackText.innerText = feedback;
-    tips.forEach(tip => {
-        const li = document.createElement('li');
-        li.className = "mb-2 animate__animated animate__fadeInLeft";
-        li.innerText = tip;
-        tipsList.appendChild(li);
-    });
+  let levelText = "";
+  let feedback = "";
+  let tips = [];
 
-    // Progression Buttons Logic
-    const currentDiff = filteredQuestions[0].difficulty.toLowerCase().trim();
-    let nextDiff = currentDiff === "easy" ? "medium" : currentDiff === "medium" ? "hard" : null;
+  if (percentage < 40) {
+    levelText = "Beginner";
+    feedback = "You need strong practice on basics.";
+    tips = [
+      "Revise fundamentals",
+      "Practice daily MCQs",
+      "Focus on concepts"
+    ];
+  } else if (percentage <= 70) {
+    levelText = "Intermediate";
+    feedback = "Good, but needs improvement.";
+    tips = [
+      "Improve speed",
+      "Practice medium questions",
+      "Analyze mistakes"
+    ];
+  } else {
+    levelText = "Advanced";
+    feedback = "Excellent performance!";
+    tips = [
+      "Try mock interviews",
+      "Solve hard problems",
+      "Focus on optimization"
+    ];
+  }
 
-    if (showNextLevel && nextDiff) {
-        const nextBtn = document.createElement('button');
-        nextBtn.className = "btn btn-purple-gradient w-100 mb-3 rounded-pill py-3 fw-bold shadow-sm";
-        nextBtn.innerText = `Unlock ${nextDiff.toUpperCase()} Mode`;
-        nextBtn.onclick = () => beginQuiz(nextDiff);
-        actionContainer.appendChild(nextBtn);
-    } else {
-        const retryBtn = document.createElement('button');
-        retryBtn.className = "btn btn-outline-purple w-100 mb-3 rounded-pill py-3 fw-bold";
-        retryBtn.innerText = "Retry This Level";
-        retryBtn.onclick = () => beginQuiz(currentDiff);
-        actionContainer.appendChild(retryBtn);
-    }
+  document.getElementById("score").innerText =
+    `Score: ${score} / ${total} (${percentage.toFixed(1)}%)`;
 
-    const dashboardBtn = document.createElement('button');
-    dashboardBtn.className = "btn btn-light w-100 rounded-pill py-3 text-muted border";
-    dashboardBtn.innerText = "Explore Other Topics";
-    dashboardBtn.onclick = () => window.location.href = 'dashboard.html';
-    actionContainer.appendChild(dashboardBtn);
+  document.getElementById("feedback").innerText =
+    `${levelText} - ${feedback}`;
+
+  const tipBox = document.getElementById("tips");
+  tipBox.innerHTML = "";
+
+  tips.forEach(t => {
+    const li = document.createElement("li");
+    li.innerText = t;
+    tipBox.appendChild(li);
+  });
+
+  // NEXT LEVEL BUTTON LOGIC
+  const nextBtn = document.createElement("button");
+  nextBtn.innerText =
+    currentLevel === "easy"
+      ? "Start Medium Level"
+      : currentLevel === "medium"
+      ? "Start Hard Level"
+      : "Go Dashboard";
+
+  nextBtn.className = "primary";
+
+  nextBtn.onclick = () => {
+    if (currentLevel === "easy") startQuiz("medium");
+    else if (currentLevel === "medium") startQuiz("hard");
+    else window.location.href = "dashboard.html";
+  };
+
+  tipBox.appendChild(nextBtn);
+}
+
+// ---------------- LOGOUT ----------------
+function logout() {
+  localStorage.clear();
+  window.location.href = "login.html";
 }

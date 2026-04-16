@@ -5,88 +5,142 @@
 <title>Dashboard</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6fb;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
 }
 
-.header{
-    background:#4a3aff;
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-size:22px;
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
 }
 
-.container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    padding:20px;
+.header h2 {
+  margin: 0;
 }
 
-.card{
-    background:white;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
+.logout-btn {
+  background: #ff4b5c;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
-.card:hover{
-    transform:translateY(-5px);
+/* GRID */
+.container {
+  padding: 30px;
 }
 
-.card img{
-    width:100%;
-    height:130px;
-    object-fit:cover;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
 }
 
-.card-content{
-    padding:15px;
-    text-align:center;
+/* CARD */
+.dashboard-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: 0.3s;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-.card h3{
-    margin:10px 0;
-    font-size:18px;
+.dashboard-card:hover {
+  transform: translateY(-8px) scale(1.02);
 }
 
-.card p{
-    font-size:13px;
-    color:#666;
-    height:40px;
-    overflow:hidden;
+/* IMAGE */
+.card-image {
+  height: 160px;
+  overflow: hidden;
 }
 
-button{
-    margin-top:10px;
-    background:#4a3aff;
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
-    width:100%;
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-button:hover{
-    background:#3728d6;
+/* CONTENT */
+.card-content {
+  padding: 15px;
+}
+
+.card-content h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.card-content p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin: 8px 0;
+}
+
+/* BUTTON */
+.explore-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #8e44ad, #c0392b);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.explore-btn:hover {
+  opacity: 0.85;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 15px;
+  opacity: 0.6;
+}
+
+/* LOADING */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  opacity: 0.7;
 }
 </style>
-
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
-📚 Learning Dashboard
+  <h2 id="userName">Welcome</h2>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
-<div class="container" id="modules"></div>
+<!-- MAIN -->
+<div class="container">
+  <div id="modules" class="grid">
+    <p class="loading">Loading modules...</p>
+  </div>
+</div>
 
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 AI Interview Practice Platform
+</div>
+
+<!-- JS -->
 <script src="../js/dashboard.js"></script>
 
 </body>

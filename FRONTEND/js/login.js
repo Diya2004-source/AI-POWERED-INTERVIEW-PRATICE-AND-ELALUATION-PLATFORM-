@@ -1,172 +1,89 @@
-// // Toggle Password Visibility
-// function togglePassword() {
-//     const passwordInput = document.getElementById("password");
-//     const icon = document.getElementById("eyeIcon");
-    
-//     if (passwordInput.type === "password") {
-//         passwordInput.type = "text";
-//         icon.classList.replace("bi-eye", "bi-eye-slash");
-//     } else {
-//         passwordInput.type = "password";
-//         icon.classList.replace("bi-eye-slash", "bi-eye");
-//     }
-// }
+document.addEventListener("DOMContentLoaded", function () {
 
-// /* NORMAL LOGIN */
-// document.getElementById("loginForm").addEventListener("submit", async function(e) {
-//     e.preventDefault();
-//     const btn = document.getElementById("loginBtn");
-//     const errorDiv = document.getElementById("login-error");
+  const loginBtn = document.getElementById("loginBtn");
 
-//     const formData = {
-//         email: document.getElementById("email").value,
-//         password: document.getElementById("password").value
-//     };
+  if (!loginBtn) {
+    console.error("loginBtn not found in login.html");
+    return;
+  }
 
-//     btn.disabled = true;
-//     btn.innerText = "Verifying...";
-//     errorDiv.classList.add('d-none');
-
-//     try {
-//         const res = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify(formData)
-//         });
-
-//         const result = await res.json();
-
-//         if (res.ok) {
-//             // MATCHING YOUR DJANGO VIEW KEYS:
-//             localStorage.setItem("token", result.access_token);
-//             localStorage.setItem("userName", result.user.name); 
-            
-//             console.log("Login Success! Name:", result.user.name);
-//             window.location.href = "dashboard.html";
-//         } else {
-//             errorDiv.innerText = result.error || "Invalid email or password.";
-//             errorDiv.classList.remove('d-none');
-//         }
-//     } catch (err) {
-//         errorDiv.innerText = "Server connection failed.";
-//         errorDiv.classList.remove('d-none');
-//     } finally {
-//         btn.disabled = false;
-//         btn.innerText = "Login";
-//     }
-// });
-
-// /* GOOGLE LOGIN CALLBACK */
-// function handleCredentialResponse(response) {
-//     const googleToken = response.credential;
-
-//     fetch("http://127.0.0.1:8000/api/accounts/google-login/", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ token: googleToken })
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         // Ensure Google login also uses the correct key returned by your backend
-//         if (data.access_token) {
-//             localStorage.setItem("token", data.access_token);
-//             localStorage.setItem("userName", data.user.name);
-//             window.location.href = "dashboard.html";
-//         } else {
-//             alert("Google Login Failed: " + JSON.stringify(data));
-//         }
-//     })
-//     .catch(err => console.error("Google Auth Error:", err));
-// }
-
-
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const icon = document.getElementById("eyeIcon");
-
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        icon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-        passwordInput.type = "password";
-        icon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-}
-
-
-// NORMAL LOGIN
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  loginBtn.addEventListener("click", async function (e) {
     e.preventDefault();
 
-    const btn = document.getElementById("loginBtn");
-    const errorDiv = document.getElementById("login-error");
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
 
-    const formData = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
-    };
+    if (!emailEl || !passwordEl) {
+      alert("Form fields missing in HTML");
+      return;
+    }
 
-    btn.disabled = true;
-    btn.innerText = "Verifying...";
-    errorDiv.classList.add("d-none");
+    const email = emailEl.value.trim();
+    const password = passwordEl.value.trim();
+
+    if (!email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    loginBtn.innerText = "Logging in...";
+    loginBtn.disabled = true;
 
     try {
-        const res = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        });
 
-        const result = await res.json();
+      const res = await postAPI("accounts/login/", {
+        email,
+        password
+      });
 
-        if (res.ok) {
+      console.log("LOGIN RESPONSE:", res);
 
-            // ✅ FIXED KEY NAME (IMPORTANT)
-            localStorage.setItem("token", result.access_token);
-            localStorage.setItem("userName", result.user.name);
+      // ✅ FIXED TOKEN HANDLING (your backend uses access_token)
+      const token = res.access_token;
 
-            console.log("Login Success:", result.user.name);
+      if (token) {
 
-            window.location.href = "dashboard.html";
+        localStorage.setItem("token", token);
+        localStorage.setItem("refresh", res.refresh_token || "");
+        localStorage.setItem("userEmail", email);
 
-        } else {
-            errorDiv.innerText = result.error || "Invalid email or password.";
-            errorDiv.classList.remove("d-none");
+        if (res.user?.name) {
+          localStorage.setItem("userName", res.user.name);
         }
+
+        document.body.innerHTML = `
+          <div style="
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+            color:white;
+            font-family:Arial;
+          ">
+            <h1 style="color:#7b2ff7">Login Successful 🎉</h1>
+            <p>Redirecting to dashboard...</p>
+          </div>
+        `;
+
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1500);
+
+      } else {
+        alert(res.detail || res.error || "Invalid credentials");
+        loginBtn.innerText = "Login";
+        loginBtn.disabled = false;
+      }
 
     } catch (err) {
-        errorDiv.innerText = "Server connection failed.";
-        errorDiv.classList.remove("d-none");
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "Login";
+      console.error("LOGIN ERROR:", err);
+      alert("Server error. Please try again.");
+
+      loginBtn.innerText = "Login";
+      loginBtn.disabled = false;
     }
+  });
+
 });
-
-
-// GOOGLE LOGIN
-function handleCredentialResponse(response) {
-    const googleToken = response.credential;
-
-    fetch("http://127.0.0.1:8000/api/accounts/google-login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: googleToken })
-    })
-    .then(res => res.json())
-    .then(data => {
-
-        if (data.access_token) {
-
-            // ✅ SAME KEY USED HERE
-            localStorage.setItem("token", data.access_token);
-            localStorage.setItem("userName", data.user.name);
-
-            window.location.href = "dashboard.html";
-
-        } else {
-            alert("Google Login Failed");
-        }
-    })
-    .catch(err => console.error(err));
-}
